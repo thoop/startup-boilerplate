@@ -1,0 +1,1 @@
+window.delay = (ms, func, scope) -> setTimeout _.bind(func, scope || this), ms
