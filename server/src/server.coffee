@@ -6,7 +6,7 @@ app = express()
 
 console.log __dirname + '/../../../views'
 app.configure ->
-    mongoose.connect process.env.MONGOLAB_URI
+    mongoose.connect process.env.MONGOLAB_URI || 'mongodb://localhost/test'
     app.set 'port', process.env.PORT || 3001
     app.set 'view engine', 'jade'
     app.set 'views', __dirname + '/../../../views'
