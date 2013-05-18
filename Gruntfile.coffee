@@ -6,8 +6,9 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-less'
     grunt.loadNpmTasks 'grunt-contrib-watch'
+    grunt.loadNpmTasks 'grunt-jade-handlebars'
 
-    grunt.registerTask 'default', ['coffee','less','concat','uglify']
+    grunt.registerTask 'default', ['coffee','less','jade_handlebars','concat','uglify']
 
     grunt.initConfig
 
@@ -20,6 +21,10 @@ module.exports = (grunt) ->
             clientStyles:
                 files: 'client/styles/**/*.less'
                 tasks: ['less:client', 'concat:css']
+
+            clientTemplates:
+                files: 'client/templates/**/*.jade'
+                tasks: ['jade_handlebars', 'concat:js', 'uglify:js']
 
             clientTest:
                 files: 'client/test/**/*.coffee'
@@ -67,6 +72,17 @@ module.exports = (grunt) ->
                 dest: 'server/gen/js/test'
                 ext: '.js'
 
+        jade_handlebars:
+            options:
+                processName: (filePath, x) ->
+                    console.log(JSON.stringify(filePath, x))
+                    pieces = filePath.split("/")
+                    pieces.splice(2).join("/")
+                your_target:
+                  "gen/js/templates/hbs.js": "client/templates/**/*.jade"
+            files:
+                src: ["client/templates/**/*.jade"]
+                dest: "client/gen/js/templates/hbs.js"
 
         less:
             client:
@@ -87,6 +103,7 @@ module.exports = (grunt) ->
         concat:
             js:
                 src: [
+                    'client/gen/js/templates/hbs.js',
                     'client/gen/js/src/global.js'
                     'client/gen/js/src/namespace.js'
                     'client/gen/js/src/view.js'
