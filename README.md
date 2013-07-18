@@ -1,3 +1,4 @@
+[![Stories in Ready](http://badge.waffle.io/thoop/startup-boilerplate.png)](http://waffle.io/thoop/startup-boilerplate)  
 startup-boilerplate
 ===================
 
